@@ -10,7 +10,7 @@ export const ROLES = {
   ADMIN: 'admin',
 };
 
-const STORAGE_KEY = 'finance_dashboard_state';
+const STORAGE_KEY = 'financial_analytics_platform_v4';
 
 function loadFromStorage() {
   if (typeof window === 'undefined') return null;
@@ -32,7 +32,7 @@ function getInitialDarkMode() {
       const parsed = JSON.parse(saved);
       if (typeof parsed.darkMode === 'boolean') return parsed.darkMode;
     }
-  } catch {}
+  } catch { }
   return true; // default: dark
 }
 
@@ -76,7 +76,7 @@ export function AppProvider({ children }) {
     if (!hydrated) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ transactions, role, darkMode }));
-    } catch {}
+    } catch { }
   }, [transactions, role, darkMode, hydrated]);
 
   const addTransaction = useCallback((tx) => {
@@ -115,7 +115,7 @@ export function AppProvider({ children }) {
     if (filters.category !== 'all') result = result.filter(t => t.category === filters.category);
 
     if (filters.dateRange !== 'all') {
-      const now = new Date('2024-06-30');
+      const now = new Date();
       const days = { '30d': 30, '90d': 90, '180d': 180 }[filters.dateRange];
       if (days) {
         const cutoff = new Date(now);
@@ -127,10 +127,10 @@ export function AppProvider({ children }) {
     result.sort((a, b) => {
       let valA, valB;
       switch (filters.sortBy) {
-        case 'date':        valA = new Date(a.date);              valB = new Date(b.date);              break;
-        case 'amount':      valA = Math.abs(a.amount);            valB = Math.abs(b.amount);            break;
-        case 'description': valA = a.description.toLowerCase();   valB = b.description.toLowerCase();   break;
-        default:            valA = new Date(a.date);              valB = new Date(b.date);
+        case 'date': valA = new Date(a.date); valB = new Date(b.date); break;
+        case 'amount': valA = Math.abs(a.amount); valB = Math.abs(b.amount); break;
+        case 'description': valA = a.description.toLowerCase(); valB = b.description.toLowerCase(); break;
+        default: valA = new Date(a.date); valB = new Date(b.date);
       }
       if (filters.sortDir === 'asc') return valA > valB ? 1 : -1;
       return valA < valB ? 1 : -1;

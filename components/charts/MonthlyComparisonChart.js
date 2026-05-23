@@ -12,7 +12,7 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="min-w-[140px] rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-lg dark:border-white/10 dark:bg-navy-800/95">
-      <p className="label-text mb-2">{label} 2024</p>
+      <p className="label-text mb-2">{label}</p>
       {payload.map((p) => (
         <div key={p.name} className="mb-1 flex items-center justify-between gap-4">
           <div className="flex items-center gap-1.5">
@@ -34,7 +34,9 @@ export default function MonthlyComparisonChart() {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <p className="label-text mb-0.5">Monthly Comparison</p>
-          <p className="section-title">Income vs Expenses</p>
+          <p className="section-title">
+            Monthly Financial Performance
+          </p>
         </div>
         <div className="flex items-center gap-4 font-mono text-xs">
           <span className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
@@ -48,7 +50,11 @@ export default function MonthlyComparisonChart() {
       <ResponsiveContainer width="100%" height={220}>
         {/* recharts v3: margin requires all 4 keys */}
         <BarChart data={MONTHLY_SUMMARY} margin={{ top: 8, right: 4, bottom: 0, left: -20 }} barCategoryGap="30%">
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,116,139,0.15)" vertical={false} />
+          <CartesianGrid
+            strokeDasharray="4 4"
+            stroke="rgba(100,116,139,0.12)"
+            vertical={false}
+          />
           <XAxis
             dataKey="month"
             tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'var(--font-dm-mono)' }}
@@ -60,7 +66,7 @@ export default function MonthlyComparisonChart() {
             axisLine={false} tickLine={false}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(100,116,139,0.08)' }} />
-          <Bar dataKey="income"   fill="#34d399" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="income" fill="#34d399" radius={[4, 4, 0, 0]} />
           <Bar dataKey="expenses" fill="#fb7185" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>

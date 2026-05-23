@@ -39,7 +39,7 @@ export default function RecentTransactions() {
             return (
               <div
                 key={tx.id}
-                className="flex items-center gap-3 px-5 py-3 opacity-0 animate-fade-in hover:bg-slate-50 dark:hover:bg-white/2 transition-colors"
+                className="group flex items-center gap-3 px-5 py-3 opacity-0 animate-fade-in hover:bg-slate-50 dark:hover:bg-white/2 transition-colors"
                 style={{ animationDelay: `${i * 40}ms`, animationFillMode: 'forwards' }}
               >
                 <div className={clsx(
@@ -49,8 +49,12 @@ export default function RecentTransactions() {
                   {cat?.icon || '💳'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="truncate text-sm font-medium text-slate-700 dark:text-slate-200">{tx.description}</p>
-                  <p className="font-mono text-xs text-slate-400 dark:text-slate-500">{fmtDate(tx.date)} · {tx.account}</p>
+                  <p className="text-sm font-medium text-slate-700 transition-colors duration-200 dark:text-slate-200 dark:group-hover:text-slate-700">
+                    {tx.description}
+                  </p>
+                  <p className="font-mono text-xs text-slate-400 transition-colors duration-200 dark:text-slate-500 dark:group-hover:text-slate-700">
+                    {tx.account}
+                  </p>
                 </div>
                 <div className="flex-shrink-0 text-right">
                   <p className={clsx('font-mono text-sm font-semibold', isIncome ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>

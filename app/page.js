@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const { transactions, isAdmin } = useApp();
   const summary = computeSummary(transactions);
 
-  const today = new Date('2024-06-30').toLocaleDateString('en-US', {
+  const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
 
@@ -26,13 +26,14 @@ export default function DashboardPage() {
           <div>
             <p className="label-text mb-1">{today}</p>
             <h1 className="page-title">Financial Overview</h1>
-            <p className="page-subtitle">Your complete financial snapshot for 2024</p>
+            <p className="page-subtitle">
+              Your complete financial snapshot powered by real-world financial data
+            </p>
           </div>
-          <div className={`self-start rounded-xl border px-4 py-2.5 text-sm font-medium sm:self-auto flex items-center gap-2 ${
-            isAdmin
-              ? 'border-gold-200 bg-gold-50 text-gold-700 dark:border-gold-500/20 dark:bg-gold-500/10 dark:text-gold-400'
-              : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-white/5 dark:bg-slate-700/30 dark:text-slate-400'
-          }`}>
+          <div className={`self-start rounded-xl border px-4 py-2.5 text-sm font-medium sm:self-auto flex items-center gap-2 ${isAdmin
+            ? 'border-gold-200 bg-gold-50 text-gold-700 dark:border-gold-500/20 dark:bg-gold-500/10 dark:text-gold-400'
+            : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-white/5 dark:bg-slate-700/30 dark:text-slate-400'
+            }`}>
             {isAdmin ? <Shield size={15} /> : <Eye size={15} />}
             {isAdmin ? 'Admin View' : 'Viewer Mode'}
           </div>
@@ -41,10 +42,37 @@ export default function DashboardPage() {
 
       {/* Summary Cards */}
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <SummaryCard title="Total Balance"  value={summary.balance}       change={12.4} changeLabel="vs last period" icon={Wallet}      variant="gold"    delay={0}   />
-        <SummaryCard title="Total Income"   value={summary.totalIncome}   change={8.2}  changeLabel="vs last period" icon={TrendingUp}  variant="income"  delay={100} />
-        <SummaryCard title="Total Expenses" value={summary.totalExpenses} change={-3.1} changeLabel="vs last period" icon={TrendingDown} variant="expense" delay={200} />
-        <SummaryCard title="Savings Rate"   value={`${summary.savingsRate}%`} change={2.1} changeLabel="of total income" icon={PiggyBank} variant="default" delay={300} />
+        <SummaryCard
+          title="Total Balance"
+          value={summary.balance}
+          icon={Wallet}
+          variant="gold"
+          delay={0}
+        />
+
+        <SummaryCard
+          title="Total Income"
+          value={summary.totalIncome}
+          icon={TrendingUp}
+          variant="income"
+          delay={100}
+        />
+
+        <SummaryCard
+          title="Total Expenses"
+          value={summary.totalExpenses}
+          icon={TrendingDown}
+          variant="expense"
+          delay={200}
+        />
+
+        <SummaryCard
+          title="Savings Rate"
+          value={`${summary.savingsRate}%`}
+          icon={PiggyBank}
+          variant="default"
+          delay={300}
+        />
       </div>
 
       {/* Charts row 1 */}

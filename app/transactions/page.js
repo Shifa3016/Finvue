@@ -55,7 +55,7 @@ export default function TransactionsPage() {
 
   function exportCSV() {
     const rows = filtered.map(t => [t.date, `"${t.description}"`, t.category, t.type, t.amount, t.account]);
-    const csv = [['Date','Description','Category','Type','Amount','Account'], ...rows].map(r => r.join(',')).join('\n');
+    const csv = [['Date', 'Description', 'Category', 'Type', 'Amount', 'Account'], ...rows].map(r => r.join(',')).join('\n');
     const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([csv], { type: 'text/csv' })), download: 'transactions.csv' });
     a.click();
   }
@@ -141,7 +141,7 @@ export default function TransactionsPage() {
           <div className="col-span-2"><SortButton col="date" label="Date" filters={filters} updateFilters={updateFilters} /></div>
           <div className="col-span-2"><span className="font-mono text-xs uppercase tracking-wide text-slate-400">Category</span></div>
           <div className="col-span-2"><SortButton col="amount" label="Amount" filters={filters} updateFilters={updateFilters} /></div>
-          <div className="col-span-1 text-right">{isAdmin && <span className="font-mono text-xs uppercase tracking-wide text-slate-400">Actions</span>}</div>
+          <div className="col-span-1 text-right">{isAdmin && <span className="font-mono text-xs uppercase tracking-wide text-slate-400"></span>}</div>
         </div>
 
         {paginated.length === 0 ? (
@@ -190,8 +190,12 @@ export default function TransactionsPage() {
                   </div>
                   <div className="col-span-4 hidden items-center sm:flex">
                     <div>
-                      <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{tx.description}</p>
-                      <p className="font-mono text-xs text-slate-400 dark:text-slate-500">{tx.account}</p>
+                      <p className="text-sm font-medium text-slate-700 transition-colors duration-200 dark:text-slate-200 dark:group-hover:text-slate-700">
+                        {tx.description}
+                      </p>
+                      <p className="font-mono text-xs text-slate-400 transition-colors duration-200 dark:text-slate-500 dark:group-hover:text-slate-700">
+                        {tx.account}
+                      </p>
                     </div>
                   </div>
                   <div className="col-span-2 hidden items-center sm:flex">

@@ -19,10 +19,10 @@ function fmt(val) {
 
 function InsightCard({ icon: Icon, title, value, subtitle, trend, color = 'gold', delay = 0 }) {
   const colors = {
-    gold:    { wrap: 'border-gold-200    bg-gold-50    dark:border-gold-500/20    dark:bg-gold-500/10',    icon: 'bg-gold-100    text-gold-600    dark:bg-white/5 dark:text-gold-400',    val: 'text-gold-700    dark:text-gold-300'    },
+    gold: { wrap: 'border-gold-200    bg-gold-50    dark:border-gold-500/20    dark:bg-gold-500/10', icon: 'bg-gold-100    text-gold-600    dark:bg-white/5 dark:text-gold-400', val: 'text-gold-700    dark:text-gold-300' },
     emerald: { wrap: 'border-emerald-200 bg-emerald-50 dark:border-emerald-500/20 dark:bg-emerald-500/10', icon: 'bg-emerald-100 text-emerald-600 dark:bg-white/5 dark:text-emerald-400', val: 'text-emerald-700 dark:text-emerald-300' },
-    rose:    { wrap: 'border-rose-200    bg-rose-50    dark:border-rose-500/20    dark:bg-rose-500/10',    icon: 'bg-rose-100    text-rose-600    dark:bg-white/5 dark:text-rose-400',    val: 'text-rose-700    dark:text-rose-300'    },
-    purple:  { wrap: 'border-purple-200  bg-purple-50  dark:border-purple-500/20  dark:bg-purple-500/10',  icon: 'bg-purple-100  text-purple-600  dark:bg-white/5 dark:text-purple-400',  val: 'text-purple-700  dark:text-purple-300'  },
+    rose: { wrap: 'border-rose-200    bg-rose-50    dark:border-rose-500/20    dark:bg-rose-500/10', icon: 'bg-rose-100    text-rose-600    dark:bg-white/5 dark:text-rose-400', val: 'text-rose-700    dark:text-rose-300' },
+    purple: { wrap: 'border-purple-200  bg-purple-50  dark:border-purple-500/20  dark:bg-purple-500/10', icon: 'bg-purple-100  text-purple-600  dark:bg-white/5 dark:text-purple-400', val: 'text-purple-700  dark:text-purple-300' },
   };
   const c = colors[color];
   return (
@@ -33,8 +33,8 @@ function InsightCard({ icon: Icon, title, value, subtitle, trend, color = 'gold'
         {trend !== undefined && (
           <div className={clsx('flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium',
             trend > 0 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400'
-                      : trend < 0 ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400'
-                                  : 'bg-slate-100 text-slate-500 dark:bg-slate-700/50 dark:text-slate-400'
+              : trend < 0 ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400'
+                : 'bg-slate-100 text-slate-500 dark:bg-slate-700/50 dark:text-slate-400'
           )}>
             {trend > 0 ? <ArrowUp size={10} /> : trend < 0 ? <ArrowDown size={10} /> : <Minus size={10} />}
             {Math.abs(trend)}%
@@ -50,10 +50,10 @@ function InsightCard({ icon: Icon, title, value, subtitle, trend, color = 'gold'
 
 function ObservationCard({ type, title, description, delay = 0 }) {
   const configs = {
-    warning: { icon: AlertTriangle, wrap: 'border-amber-200   bg-amber-50   dark:border-amber-500/15  dark:bg-amber-500/8',   ic: 'text-amber-600   dark:text-amber-400'   },
-    success: { icon: Award,         wrap: 'border-emerald-200 bg-emerald-50 dark:border-emerald-500/15 dark:bg-emerald-500/8', ic: 'text-emerald-600 dark:text-emerald-400' },
-    info:    { icon: Zap,           wrap: 'border-blue-200    bg-blue-50    dark:border-blue-500/15    dark:bg-blue-500/8',    ic: 'text-blue-600    dark:text-blue-400'    },
-    tip:     { icon: Target,        wrap: 'border-purple-200  bg-purple-50  dark:border-purple-500/15  dark:bg-purple-500/8',  ic: 'text-purple-600  dark:text-purple-400'  },
+    warning: { icon: AlertTriangle, wrap: 'border-amber-200   bg-amber-50   dark:border-amber-500/15  dark:bg-amber-500/8', ic: 'text-amber-600   dark:text-amber-400' },
+    success: { icon: Award, wrap: 'border-emerald-200 bg-emerald-50 dark:border-emerald-500/15 dark:bg-emerald-500/8', ic: 'text-emerald-600 dark:text-emerald-400' },
+    info: { icon: Zap, wrap: 'border-blue-200    bg-blue-50    dark:border-blue-500/15    dark:bg-blue-500/8', ic: 'text-blue-600    dark:text-blue-400' },
+    tip: { icon: Target, wrap: 'border-purple-200  bg-purple-50  dark:border-purple-500/15  dark:bg-purple-500/8', ic: 'text-purple-600  dark:text-purple-400' },
   };
   const c = configs[type] || configs.info;
   const Icon = c.icon;
@@ -74,17 +74,17 @@ export default function InsightsPage() {
 
   const insights = useMemo(() => {
     const spending = computeSpendingByCategory(transactions);
-    const income   = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+    const income = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
     const expenses = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + Math.abs(t.amount), 0);
     const savingsRate = income > 0 ? (income - expenses) / income * 100 : 0;
     const topCategory = spending[0];
     const avgMonthlyExpense = MONTHLY_SUMMARY.reduce((s, m) => s + m.expenses, 0) / MONTHLY_SUMMARY.length;
-    const avgMonthlyIncome  = MONTHLY_SUMMARY.reduce((s, m) => s + m.income, 0)  / MONTHLY_SUMMARY.length;
-    const bestMonth  = [...MONTHLY_SUMMARY].sort((a, b) => b.balance - a.balance)[0];
+    const avgMonthlyIncome = MONTHLY_SUMMARY.reduce((s, m) => s + m.income, 0) / MONTHLY_SUMMARY.length;
+    const bestMonth = [...MONTHLY_SUMMARY].sort((a, b) => b.balance - a.balance)[0];
     const last = MONTHLY_SUMMARY[MONTHLY_SUMMARY.length - 1];
     const prev = MONTHLY_SUMMARY[MONTHLY_SUMMARY.length - 2];
     const expenseChange = prev.expenses > 0 ? (((last.expenses - prev.expenses) / prev.expenses) * 100).toFixed(1) : 0;
-    const largestExpense = [...transactions].filter(t => t.type === 'expense').sort((a,b) => Math.abs(b.amount)-Math.abs(a.amount))[0];
+    const largestExpense = [...transactions].filter(t => t.type === 'expense').sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount))[0];
     const radarData = spending.slice(0, 6).map(s => ({ category: s.label.split(' ')[0], amount: Math.round(s.amount), fullMark: spending[0].amount }));
     const totalInvested = transactions.filter(t => t.category === 'investment').reduce((s, t) => s + Math.abs(t.amount), 0);
     return { spending, income, expenses, savingsRate, topCategory, avgMonthlyExpense, avgMonthlyIncome, bestMonth, expenseChange, largestExpense, radarData, totalInvested };
@@ -102,9 +102,14 @@ export default function InsightsPage() {
       description: `${insights.topCategory?.label} is your biggest expense at ${fmt(insights.topCategory?.amount || 0)} total (${((insights.topCategory?.amount / insights.expenses) * 100).toFixed(1)}% of all expenses).`,
     },
     {
-      type: Number(insights.expenseChange) > 10 ? 'warning' : 'success',
-      title: `${Number(insights.expenseChange) > 0 ? '📈 Expenses Up' : '📉 Expenses Down'} ${Math.abs(insights.expenseChange)}% Last Month`,
-      description: Number(insights.expenseChange) > 10 ? `June spending jumped ${insights.expenseChange}% compared to May. Vacation and AC costs were major contributors.` : `Great discipline! You reduced expenses by ${Math.abs(insights.expenseChange)}% vs the prior month.`,
+      type: Number(insights.expenseChange) > 0 ? 'warning' : 'success',
+
+      title: `${Number(insights.expenseChange) > 0 ? '📈 Expenses Increased' : '📉 Expenses Reduced'} ${Math.abs(insights.expenseChange)}%`,
+
+      description:
+        Number(insights.expenseChange) > 0
+          ? 'Expenses increased significantly compared to the previous period.'
+          : 'Expenses decreased compared to the previous period.',
     },
     {
       type: 'tip',
@@ -135,10 +140,10 @@ export default function InsightsPage() {
 
       {/* KPIs */}
       <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <InsightCard icon={TrendingUp}   title="Avg Monthly Income"  value={fmt(insights.avgMonthlyIncome)}  subtitle="Based on 6 months"       trend={8.2}  color="emerald" delay={0}   />
-        <InsightCard icon={TrendingDown} title="Avg Monthly Spend"   value={fmt(insights.avgMonthlyExpense)} subtitle="Based on 6 months"       trend={-3.1} color="rose"    delay={100} />
-        <InsightCard icon={PiggyBank}    title="Savings Rate"        value={`${insights.savingsRate.toFixed(1)}%`} subtitle="Income kept as savings" trend={2.1}  color="gold"    delay={200} />
-        <InsightCard icon={BarChart3}    title="Total Invested"      value={fmt(insights.totalInvested)}     subtitle="ETF contributions"                    color="purple"  delay={300} />
+        <InsightCard icon={TrendingUp} title="Avg Monthly Income" value={fmt(insights.avgMonthlyIncome)} subtitle={`${MONTHLY_SUMMARY.length} months analyzed`} trend={8.2} color="emerald" delay={0} />
+        <InsightCard icon={TrendingDown} title="Avg Monthly Spend" value={fmt(insights.avgMonthlyExpense)} subtitle="Based on 6 months" trend={-3.1} color="rose" delay={100} />
+        <InsightCard icon={PiggyBank} title="Savings Rate" value={`${insights.savingsRate.toFixed(1)}%`} subtitle="Income kept as savings" trend={2.1} color="gold" delay={200} />
+        <InsightCard icon={BarChart3} title="Total Invested" value={fmt(insights.totalInvested)} subtitle="ETF contributions" color="purple" delay={300} />
       </div>
 
       {/* Charts */}
@@ -178,11 +183,11 @@ export default function InsightsPage() {
           <div className="space-y-3">
             {insights.spending.slice(0, 6).map((cat, i) => {
               const pct = ((cat.amount / insights.expenses) * 100).toFixed(1);
-              const medals = ['🥇','🥈','🥉'];
+              const medals = ['🥇', '🥈', '🥉'];
               return (
                 <div key={cat.id} className="flex items-center gap-3">
                   <span className="w-6 flex-shrink-0 text-center text-sm">
-                    {medals[i] || <span className="font-mono text-xs text-slate-400 dark:text-slate-500">#{i+1}</span>}
+                    {medals[i] || <span className="font-mono text-xs text-slate-400 dark:text-slate-500">#{i + 1}</span>}
                   </span>
                   <span className="text-base">{cat.icon}</span>
                   <div className="flex-1 min-w-0">
