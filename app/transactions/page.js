@@ -108,7 +108,7 @@ export default function TransactionsPage() {
             <span className="text-xs text-slate-400">Filters:</span>
             {filters.search && (
               <span className="flex items-center gap-1 rounded-full border border-gold-200 bg-gold-50 px-2.5 py-1 text-xs text-gold-700 dark:border-gold-500/20 dark:bg-gold-500/10 dark:text-gold-400">
-                "{filters.search}"
+                &quot;{filters.search}&quot;
                 <button onClick={() => handleFilterChange('search', '')} className="hover:text-gold-500">×</button>
               </span>
             )}
